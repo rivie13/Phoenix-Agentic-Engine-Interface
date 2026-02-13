@@ -1,0 +1,23 @@
+{
+  "name": "phoenix-agentic-engine-interface",
+  "version": "0.1.0",
+  "description": "Public protocol layer SDK and contracts for Phoenix engine/backend integration",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:smoke": "cross-env PHOENIX_RUN_SMOKE=1 vitest run tests/compatibility/local-smoke.test.ts"
+  },
+  "dependencies": {
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "cross-env": "^7.0.3",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  }
+}

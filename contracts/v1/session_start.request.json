@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "session_id": "sess_local_001",
+  "project": {
+    "name": "phoenix-demo",
+    "path": "TODO_sync_from_backend_canonical_fixtures"
+  },
+  "snapshot": {
+    "captured_at": "2026-02-12T00:00:00.000Z",
+    "files": [
+      {
+        "path": "README.md",
+        "hash": "sha256:abc123"
+      }
+    ]
+  }
+}
