@@ -1,0 +1,9 @@
+{
+  "schema_version": "v1",
+  "session_id": "sess_local_001",
+  "user_request": "Create a player HUD node",
+  "mode": "assist",
+  "context": {
+    "engine": "godot"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "schema_version": "v1",
+  "session_id": "sess_local_001",
+  "sequence": 1,
+  "deltas": [
+    {
+      "path": "scene/main.tscn",
+      "op": "upsert",
+      "content": "node data"
+    }
+  ]
+}

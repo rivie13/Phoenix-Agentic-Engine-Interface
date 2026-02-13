@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "tools": [
+    {
+      "name": "mock.echo",
+      "description": "Returns the same payload",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ]
+}
