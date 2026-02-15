@@ -1,6 +1,3 @@
----
-applyTo: "**"
----
 
 # Project structure — Phoenix Agentic Engine Interface (TS SDK)
 
