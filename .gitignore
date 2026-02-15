@@ -2,3 +2,6 @@ node_modules/
 dist/
 coverage/
 .vitest/
+
+# Private instruction files (must not be committed to public repo)
+.github/instructions/private-*.instructions.md
