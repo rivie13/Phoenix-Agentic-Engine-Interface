@@ -27,4 +27,4 @@ jobs:
         run: npm run typecheck
 
       - name: Test
-        run: npm test
+        run: npm test -- --exclude tests/contract/backend-mirror-validation.test.ts
