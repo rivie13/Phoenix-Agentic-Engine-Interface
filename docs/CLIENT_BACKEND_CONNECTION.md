@@ -78,18 +78,28 @@ Never publish from private backend internals:
 
 HTTP endpoints:
 
-1. `POST /api/v1/session/start`
-2. `POST /api/v1/session/delta`
-3. `POST /api/v1/task/request`
-4. `POST /api/v1/task/{plan_id}/approval`
+1. `POST /api/v1/auth/handshake`
+2. `GET /api/v1/tools`
+3. `POST /api/v1/tools/invoke`
+4. `POST /api/v1/session/start`
+5. `POST /api/v1/session/delta`
+6. `POST /api/v1/task/request`
+7. `POST /api/v1/task/{plan_id}/approval`
+8. `POST /api/v1/realtime/negotiate`
+9. `GET /api/v1/task/{plan_id}`
+10. `GET /api/v1/locks`
+11. `POST /api/v1/locks/{lock_id}/release`
 
 Core model flow:
 
+- `AuthHandshakeResponse` and `ToolListResponse` provide auth/tooling capability bootstrap
 - `SessionStartSnapshotRequest` -> `SessionStartAcceptedResponse`
 - `DeltaUpdateRequest` -> `DeltaUpdateAcceptedResponse`
 - `TaskRequest` -> `TaskRequestAcceptedResponse` (`202 Accepted`, `task_queued_ack`)
+- `RealtimeNegotiateRequest` -> `RealtimeNegotiateResponse` for realtime channel bootstrap
 - `GET /api/v1/task/{plan_id}` -> `TaskStatusResponse` (polling fallback for `ProposedActionBatch`)
 - `ApprovalDecisionRequest` -> `CommandResponse`
+- `GET /api/v1/locks` -> `LocksListResponse` and `POST /api/v1/locks/{lock_id}/release` -> `LockReleaseResponse`
 
 Contract rules:
 
@@ -217,10 +227,20 @@ docs/
   CLIENT_BACKEND_CONNECTION.md
 contracts/
   v1/
-    session_start.json
-    delta_update.json
-    task_request.json
-    approval_decision.json
+    session_start.request.json
+    session_start.response.json
+    delta_update.request.json
+    delta_update.response.json
+    task_request.request.json
+    task_request.response.json
+    approval_decision.request.json
+    approval_decision.response.json
+    auth_handshake.response.json
+    tools_list.response.json
+    tools_invoke.request.json
+    tools_invoke.response.json
+    gateway/
+    realtime/
 sdk/
   transport/
   client/
@@ -248,15 +268,16 @@ tests/
 
 ---
 
-## 11) Copy/Paste Starter Checklist
+## 11) Interface Status Checklist (0.2.0-rc.1)
 
 For interface repo:
 
-- [ ] Copy this document
-- [ ] Import published `v1` fixture mirror from backend release artifacts
-- [ ] Implement typed HTTP client for the 4 `v1` endpoints
-- [ ] Implement validators for request/response envelopes
-- [ ] Add compatibility CI gates
+- [x] Publish `v1` fixture mirror (core + gateway + realtime payloads)
+- [x] Implement typed SDK client endpoints for auth/tools/session/task/gateway
+- [x] Implement request/response validators and realtime event envelope validators
+- [x] Add compatibility CI gates
+- [ ] Add SDK-managed WS/SSE realtime transport adapter
+- [ ] Add `v2` namespace when first breaking contract change is required
 
 For engine repo:
 

@@ -42,6 +42,8 @@ phoenix-agentic-engine-interface/
 │       ├── tools_list.response.json
 │       ├── tools_invoke.request.json
 │       ├── tools_invoke.response.json
+│       ├── gateway/           # task status / lock / realtime negotiate fixtures
+│       ├── realtime/          # realtime server-event fixtures
 │       └── README.md
 ├── sdk/
 │   ├── index.ts              # Barrel export
@@ -50,17 +52,20 @@ phoenix-agentic-engine-interface/
 │   │   └── types.ts          # Request/response TypeScript types
 │   ├── transport/
 │   │   ├── backoff.ts        # Exponential backoff with jitter
-│   │   └── errors.ts         # Typed transport error classes
+│   │   ├── errors.ts         # Typed transport error classes
+│   │   ├── phoenixTransport.ts # HTTP transport implementation
+│   │   └── types.ts          # Transport/request option types
 │   └── validators/           # Zod schemas for payload validation
 ├── tests/
 │   ├── contract/             # Contract fixture validation tests
 │   └── compatibility/        # SDK + smoke tests
 ├── docs/
 │   ├── CLIENT_BACKEND_CONNECTION.md
-│   └── PUBLIC_CLIENT_BACKEND_CONNECTION.md
+│   ├── PUBLIC_CLIENT_BACKEND_CONNECTION.md
+│   └── ENGINE_MIGRATION_0.2.0-rc.1.md
 └── .github/
     ├── instructions/         # Copilot instruction files
-    └── workflows/            # CI/CD workflows
+    └── workflows/            # CI/CD workflows (includes ci.yml)
 ```
 
 ## Key principles
