@@ -107,6 +107,15 @@ Contract rules:
 - Engine pins explicit version
 - Breaking changes require new version namespace
 
+### Local Azure-parity integration expectation
+
+For MVP validation, backend should run in an Azure-shaped local setup as much as possible:
+- Gateway process + Worker process both running locally
+- Queue path enabled (Service Bus dev namespace/connection or equivalent integration harness)
+- Planning path exercised end-to-end through Interface SDK
+
+Direct FastAPI-only mode is acceptable as fallback for contract/safety stub checks, but not the primary integration target.
+
 ---
 
 ## 5) Runtime Flow by Repo
@@ -128,6 +137,8 @@ Contract rules:
 - Engine sends user request/mode
 - Backend returns queued ack (`task_queued_ack`) immediately
 - Proposed plan arrives asynchronously via realtime `plan.ready` and is retrievable via `GET /api/v1/task/{plan_id}`
+
+This is the first single-agent MVP checkpoint to validate repeatedly in local Azure-parity runs.
 
 ### Step D: Approval and execution
 
