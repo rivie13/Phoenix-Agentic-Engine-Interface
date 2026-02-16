@@ -1,17 +1,52 @@
 {
   "schema_version": "v1",
-  "session_id": "sess_local_001",
-  "project": {
-    "name": "phoenix-demo",
-    "path": "TODO_sync_from_backend_canonical_fixtures"
-  },
-  "snapshot": {
-    "captured_at": "2026-02-12T00:00:00.000Z",
-    "files": [
-      {
-        "path": "README.md",
-        "hash": "sha256:abc123"
+  "event": "session_start",
+  "session_id": "sess-001",
+  "idempotency_key": "idem-001",
+  "sent_at": "2026-02-12T12:00:00Z",
+  "project_map": {
+    "name": "My Platformer",
+    "godot_version": "4.3",
+    "main_scene": "res://main.tscn",
+    "scenes": {
+      "res://main.tscn": {
+        "root": "Main",
+        "root_type": "Node2D",
+        "children_summary": [
+          "Player (CharacterBody2D)",
+          "TileMap",
+          "UI (CanvasLayer)"
+        ]
+      },
+      "res://player.tscn": {
+        "root": "Player",
+        "root_type": "CharacterBody2D",
+        "children_summary": [
+          "Sprite2D",
+          "CollisionShape2D",
+          "AnimationPlayer"
+        ]
       }
-    ]
+    },
+    "scripts": [
+      "res://player.gd",
+      "res://main.gd",
+      "res://enemy.gd"
+    ],
+    "resources": {
+      "audio": [
+        "res://sounds/"
+      ],
+      "sprites": [
+        "res://sprites/"
+      ],
+      "tilesets": [
+        "res://tilesets/"
+      ]
+    },
+    "file_hash": "sha256:abc123",
+    "extras": {
+      "plugin_version": "0.1.0"
+    }
   }
 }

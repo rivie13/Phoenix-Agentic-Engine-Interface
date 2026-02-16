@@ -14,6 +14,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Checkout Backend mirror
+        uses: actions/checkout@v4
+        with:
+          repository: rivie13/Phoenix-Agentic-Engine-Backend
+          ref: main
+          path: backend-mirror
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -27,4 +34,6 @@ jobs:
         run: npm run typecheck
 
       - name: Test
+        env:
+          PHOENIX_BACKEND_FIXTURES_DIR: ${{ github.workspace }}/backend-mirror/tests/fixtures/contracts/v1
         run: npm test

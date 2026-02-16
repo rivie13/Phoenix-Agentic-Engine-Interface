@@ -1,0 +1,12 @@
+{
+  "schema_version": "v1",
+  "event": "realtime_negotiate_ack",
+  "session_id": "sess-001",
+  "user_id": "user-123",
+  "url": "wss://phoenix-dev.webpubsub.azure.com/client/hubs/default",
+  "access_token": "stub-token",
+  "groups": [
+    "session:sess-001",
+    "user:user-123"
+  ]
+}

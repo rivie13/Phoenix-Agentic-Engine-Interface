@@ -1,0 +1,7 @@
+{
+  "schema_version": "v1",
+  "event": "orch.step.log",
+  "plan_id": "plan-001",
+  "step_id": "step-001",
+  "message": "Detected CharacterBody2D jump pattern"
+}

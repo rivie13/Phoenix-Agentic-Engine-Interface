@@ -1,9 +1,7 @@
 {
   "schema_version": "v1",
   "tool_name": "mock.echo",
-  "args": {
-    "message": "hello"
-  },
-  "invocation_id": "inv_001",
-  "session_id": "sess_local_001"
+  "arguments": {
+    "text": "hello"
+  }
 }

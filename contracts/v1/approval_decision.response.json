@@ -1,16 +1,30 @@
 {
-  "schema_version": "v1",
-  "plan_id": "plan_001",
-  "status": "ready",
+  "approval_summary": "Modify player.gd, create jump.wav, add AudioStreamPlayer2D node",
   "commands": [
     {
-      "id": "cmd_001",
-      "action_type": "create_node",
-      "payload": {
-        "node_type": "Control",
-        "name": "HUD"
+      "action": "create_file",
+      "path": "res://sounds/jump.wav",
+      "data_base64": "UklGRiQAAABXQVZFZm10IBAAAA",
+      "import_as": "AudioStreamWAV"
+    },
+    {
+      "action": "create_node",
+      "parent": "Player",
+      "type": "AudioStreamPlayer2D",
+      "name": "JumpSFX",
+      "properties": {
+        "stream": "res://sounds/jump.wav"
       }
+    },
+    {
+      "action": "chat_message",
+      "content": "Added jump ability and sound effect.",
+      "agent": "Builder"
     }
   ],
-  "message": "Approved commands ready"
+  "correlation_id": "corr-001",
+  "plan_id": "plan-001",
+  "requires_approval": true,
+  "schema_version": "v1",
+  "session_id": "sess-001"
 }

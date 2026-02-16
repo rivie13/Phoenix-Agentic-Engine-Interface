@@ -1,8 +1,11 @@
 {
   "schema_version": "v1",
+  "event": "tool_invoke_result",
   "tool_name": "mock.echo",
-  "status": "ok",
-  "result": {
-    "message": "hello"
-  }
+  "output": {
+    "echo": "hello"
+  },
+  "mode": "managed",
+  "actor_id": "managed:developer",
+  "correlation_id": "corr-123"
 }

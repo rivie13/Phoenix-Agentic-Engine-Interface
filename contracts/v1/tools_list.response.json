@@ -1,17 +1,14 @@
 {
   "schema_version": "v1",
+  "event": "tool_list",
   "tools": [
     {
       "name": "mock.echo",
-      "description": "Returns the same payload",
-      "input_schema": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
-          }
-        }
-      }
+      "description": "Echoes sanitized payload"
+    },
+    {
+      "name": "docs.search_canary",
+      "description": "Returns canary docs snippets"
     }
   ]
 }

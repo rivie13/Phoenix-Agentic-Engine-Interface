@@ -1,0 +1,8 @@
+{
+  "schema_version": "v1",
+  "event": "orch.step.start",
+  "plan_id": "plan-001",
+  "step_id": "step-001",
+  "agent": "planner",
+  "description": "Analyze player jump implementation"
+}

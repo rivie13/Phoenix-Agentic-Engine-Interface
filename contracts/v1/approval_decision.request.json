@@ -1,6 +1,13 @@
 {
+  "approved_action_ids": [
+    "act-001",
+    "act-002"
+  ],
+  "decided_at": "2026-02-12T12:00:04Z",
   "schema_version": "v1",
-  "plan_id": "plan_001",
+  "session_id": "sess-001",
+  "plan_id": "plan-001",
   "decision": "approve",
-  "reason": "Looks safe"
+  "rejected_action_ids": [],
+  "reviewer_id": "user-123"
 }

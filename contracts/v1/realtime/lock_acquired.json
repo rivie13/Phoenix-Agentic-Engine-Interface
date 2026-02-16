@@ -1,0 +1,10 @@
+{
+  "schema_version": "v1",
+  "event": "lock.acquired",
+  "session_id": "sess-001",
+  "resource_path": "res://player.gd",
+  "resource_type": "file",
+  "agent_id": "agent-builder",
+  "plan_id": "plan-001",
+  "expires_at": "2026-02-16T12:03:00Z"
+}

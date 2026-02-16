@@ -1,0 +1,6 @@
+{
+  "schema_version": "v1",
+  "event": "lock_released",
+  "released": true,
+  "lock_id": "lock-001"
+}

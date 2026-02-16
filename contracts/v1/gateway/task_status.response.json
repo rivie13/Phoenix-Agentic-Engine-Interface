@@ -1,0 +1,29 @@
+{
+  "schema_version": "v1",
+  "plan_id": "plan-001",
+  "job_id": "job-001",
+  "session_id": "sess-001",
+  "status": "awaiting_approval",
+  "tier": "managed",
+  "updated_at": "2026-02-16T12:00:00Z",
+  "proposed_action_batch": {
+    "schema_version": "v1",
+    "session_id": "sess-001",
+    "plan_id": "plan-001",
+    "actions": [
+      {
+        "action_id": "act-001",
+        "command": {
+          "action": "chat_message",
+          "content": "Planning complete",
+          "agent": "Planner"
+        },
+        "risk_level": "low",
+        "reason_code": "planning_status",
+        "requires_approval": false
+      }
+    ],
+    "requires_approval": false,
+    "proposed_at": "2026-02-16T11:59:30Z"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "schema_version": "v1",
+  "event": "job.started",
+  "job_id": "job-001",
+  "worker_id": "worker-01"
+}

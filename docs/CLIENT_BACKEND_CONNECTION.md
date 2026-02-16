@@ -87,7 +87,8 @@ Core model flow:
 
 - `SessionStartSnapshotRequest` -> `SessionStartAcceptedResponse`
 - `DeltaUpdateRequest` -> `DeltaUpdateAcceptedResponse`
-- `TaskRequest` -> `ProposedActionBatch`
+- `TaskRequest` -> `TaskRequestAcceptedResponse` (`202 Accepted`, `task_queued_ack`)
+- `GET /api/v1/task/{plan_id}` -> `TaskStatusResponse` (polling fallback for `ProposedActionBatch`)
 - `ApprovalDecisionRequest` -> `CommandResponse`
 
 Contract rules:
@@ -115,7 +116,8 @@ Contract rules:
 ### Step C: Task planning
 
 - Engine sends user request/mode
-- Backend returns `ProposedActionBatch` with approval requirement metadata
+- Backend returns queued ack (`task_queued_ack`) immediately
+- Proposed plan arrives asynchronously via realtime `plan.ready` and is retrievable via `GET /api/v1/task/{plan_id}`
 
 ### Step D: Approval and execution
 

@@ -47,15 +47,28 @@ const tools = await client.toolsList();
 
 const session = await client.sessionStart({
 	schema_version: "v1",
-	session_id: "sess_001",
-	project: { name: "my-project" },
-	snapshot: {
-		captured_at: new Date().toISOString(),
-		files: [{ path: "README.md", hash: "sha256:..." }]
+	event: "session_start",
+	session_id: "sess-001",
+	idempotency_key: "idem-001",
+	sent_at: new Date().toISOString(),
+	project_map: {
+		name: "my-project",
+		godot_version: "4.3",
+		main_scene: "res://main.tscn",
+		scenes: {},
+		scripts: [],
+		resources: { audio: [], sprites: [], tilesets: [] },
+		file_hash: "sha256:...",
+		extras: {}
 	}
 });
 
-console.log(handshake.status, tools.tools.length, session.accepted);
+const negotiate = await client.realtimeNegotiate({
+	session_id: "sess-001",
+	user_id: "user-123"
+});
+
+console.log(handshake.mode, tools.tools.length, session.accepted, negotiate.event);
 ```
 
 ## Boundaries for Engine Consumers
@@ -73,3 +86,6 @@ See [docs/CLIENT_BACKEND_CONNECTION.md](docs/CLIENT_BACKEND_CONNECTION.md) for t
 - [ ] Implement deterministic command executor allowlist for `CommandResponse`.
 - [ ] Add engine-side UI + executor tests.
 - [ ] Implement conflict (`409`) resync flow and delta sequencing UX.
+- [ ] Consume typed realtime gateway methods: `realtimeNegotiate`, `taskStatus`, `locksList`, `lockRelease`.
+
+See [docs/ENGINE_MIGRATION_0.2.0-rc.1.md](docs/ENGINE_MIGRATION_0.2.0-rc.1.md) for a concise upgrade guide.

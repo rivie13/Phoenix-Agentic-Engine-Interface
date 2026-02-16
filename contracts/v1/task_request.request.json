@@ -1,9 +1,27 @@
 {
+  "mode": "agent",
+  "project_context": {
+    "current_file": "res://player.gd",
+    "open_files": [
+      "res://player.gd"
+    ],
+    "project_settings": {
+      "physics/2d/default_gravity": 980
+    },
+    "scene_tree": {
+      "Player": {
+        "children": [
+          "Sprite2D",
+          "CollisionShape2D"
+        ],
+        "script": "res://player.gd",
+        "type": "CharacterBody2D"
+      }
+    }
+  },
   "schema_version": "v1",
-  "session_id": "sess_local_001",
-  "user_request": "Create a player HUD node",
-  "mode": "assist",
-  "context": {
-    "engine": "godot"
-  }
+  "session_id": "sess-001",
+  "submitted_at": "2026-02-12T12:00:02Z",
+  "task_id": "task-001",
+  "user_input": "Add a jump ability to the player and wire a jump sound effect."
 }

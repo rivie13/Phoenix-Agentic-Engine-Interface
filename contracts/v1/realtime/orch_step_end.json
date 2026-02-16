@@ -1,0 +1,7 @@
+{
+  "schema_version": "v1",
+  "event": "orch.step.end",
+  "plan_id": "plan-001",
+  "step_id": "step-001",
+  "status": "done"
+}

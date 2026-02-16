@@ -1,0 +1,7 @@
+{
+  "schema_version": "v1",
+  "event": "session.resync_required",
+  "session_id": "sess-001",
+  "reason": "state_drift",
+  "last_confirmed_seq": 14
+}

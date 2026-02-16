@@ -1,0 +1,6 @@
+{
+  "schema_version": "v1",
+  "event": "job.expired",
+  "job_id": "job-001",
+  "reason": "queue_ttl_exceeded"
+}

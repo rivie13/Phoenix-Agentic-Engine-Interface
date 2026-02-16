@@ -1,7 +1,7 @@
 {
   "schema_version": "v1",
-  "status": "ok",
-  "auth_mode": "managed",
-  "session_token": "TODO_sync_from_backend_canonical_fixtures",
-  "expires_at": "2026-02-12T01:00:00.000Z"
+  "event": "auth_handshake_ack",
+  "mode": "managed",
+  "actor_id": "managed:developer",
+  "token_fingerprint": "a1b2c3d4e5f6a7b8"
 }

@@ -1,0 +1,19 @@
+{
+  "schema_version": "v1",
+  "locks": [
+    {
+      "lock_id": "lock-001",
+      "resource_type": "file",
+      "resource_path": "res://player.gd",
+      "lock_type": "exclusive_write",
+      "holder_type": "agent",
+      "holder_id": "agent-builder",
+      "holder_display_name": "Builder",
+      "plan_id": "plan-001",
+      "reason": "Editing jump logic",
+      "acquired_at": "2026-02-16T11:58:00Z",
+      "expires_at": "2026-02-16T12:03:00Z",
+      "session_id": "sess-001"
+    }
+  ]
+}

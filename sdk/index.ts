@@ -5,13 +5,21 @@ export type {
   CommandResponse,
   DeltaUpdateAcceptedResponse,
   DeltaUpdateRequest,
+  LockReleaseResponse,
+  LocksListResponse,
+  RealtimeNegotiateRequest,
+  RealtimeNegotiateResponse,
+  RealtimeServerEvent,
   ProposedActionBatch,
   SessionStartAcceptedResponse,
   SessionStartSnapshotRequest,
   TaskRequest,
+  TaskRequestAcceptedResponse,
+  TaskStatusResponse,
   ToolInvokeRequest,
   ToolInvokeResponse,
   ToolListResponse
 } from "./validators/schemas.js";
 export type { PhoenixRequestOptions, PhoenixTransportConfig, RetryConfig, TokenProvider } from "./transport/types.js";
+export type { WaitForTaskReadyOptions } from "./client/types.js";
 export { PhoenixSdkError } from "./transport/errors.js";

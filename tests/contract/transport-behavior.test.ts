@@ -20,6 +20,7 @@ describe("Transport behavior", () => {
       .mockResolvedValueOnce(
         jsonResponse(200, {
           schema_version: "v1",
+          event: "tool_list",
           tools: []
         })
       );
@@ -42,13 +43,13 @@ describe("Transport behavior", () => {
       validate: validateToolListResponse
     });
 
-    expect(response).toEqual({ schema_version: "v1", tools: [] });
+    expect(response).toEqual({ schema_version: "v1", event: "tool_list", tools: [] });
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
   it("does not retry 4xx errors", async () => {
     const fetchMock = vi.fn().mockResolvedValue(
-      jsonResponse(400, { code: "bad_request" })
+      jsonResponse(409, { code: "conflict", message: "session transition conflict" })
     );
 
     const transport = new PhoenixTransport({
@@ -69,15 +70,50 @@ describe("Transport behavior", () => {
         path: "/api/v1/tools",
         validate: validateToolListResponse
       })
-    ).rejects.toBeInstanceOf(PhoenixSdkError);
+    ).rejects.toMatchObject({
+      kind: "http",
+      status: 409,
+      retriable: false
+    });
 
     expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("retries timeout errors up to max retries", async () => {
+    const abortError = new DOMException("timed out", "AbortError");
+    const fetchMock = vi.fn().mockRejectedValue(abortError);
+
+    const transport = new PhoenixTransport({
+      baseUrl: "http://127.0.0.1:8000",
+      tokenProvider: "test-token",
+      fetchImpl: fetchMock as unknown as typeof fetch,
+      retry: {
+        maxRetries: 2,
+        baseDelayMs: 1,
+        maxDelayMs: 3,
+        timeoutMs: 2
+      }
+    });
+
+    await expect(
+      transport.request({
+        method: "GET",
+        path: "/api/v1/tools",
+        validate: validateToolListResponse
+      })
+    ).rejects.toMatchObject({
+      kind: "timeout",
+      retriable: true
+    });
+
+    expect(fetchMock).toHaveBeenCalledTimes(3);
   });
 
   it("passes correlation headers through request options", async () => {
     const fetchMock = vi.fn().mockResolvedValue(
       jsonResponse(200, {
         schema_version: "v1",
+        event: "tool_list",
         tools: []
       })
     );

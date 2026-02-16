@@ -23,16 +23,18 @@ maybeDescribe("Local backend smoke (optional)", () => {
     const invoke = await client.toolsInvoke({
       schema_version: "v1",
       tool_name: "mock.echo",
-      args: {
-        message: "ping"
-      },
-      invocation_id: "smoke-invoke-1"
+      arguments: {
+        text: "ping"
+      }
     });
 
     expect(handshake.schema_version).toBe("v1");
+    expect(handshake.event).toBe("auth_handshake_ack");
     expect(list.schema_version).toBe("v1");
+    expect(list.event).toBe("tool_list");
     expect(Array.isArray(list.tools)).toBe(true);
     expect(invoke.schema_version).toBe("v1");
+    expect(invoke.event).toBe("tool_invoke_result");
     expect(invoke.tool_name).toBe("mock.echo");
   });
 });
