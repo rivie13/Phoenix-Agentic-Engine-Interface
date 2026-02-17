@@ -19,6 +19,6 @@ However, upstream Godot syncs in the Engine repo can indirectly affect contract 
 
 ## What to do after an Engine upstream sync
 
-1. Check if Backend updated `api/schemas/` in response to the Engine sync
+1. Check if Backend updated `contracts/fixtures/v1/` in response to the Engine sync
 2. If so, update golden fixtures in `contracts/v1/` to match
 3. Run `npm test` and `npm run typecheck` to verify compatibility

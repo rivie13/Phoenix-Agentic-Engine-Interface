@@ -15,21 +15,23 @@ It intentionally excludes UI, orchestration, prompts, routing logic, policy logi
 
 1. Install dependencies:
 
-	 ```bash
-	 npm install
-	 ```
+  ```bash
+  npm install
+  ```
 
-2. Run validation and compatibility tests:
+1. Run validation and compatibility tests:
 
-	 ```bash
-	 npm test
-	 ```
+  ```bash
+  npm test
+  ```
 
-3. Optional local smoke test against `http://127.0.0.1:8000`:
+1. Optional smoke test against Azure App Service gateway:
 
-	 ```bash
-	 npm run test:smoke
-	 ```
+  ```bash
+  # Set once in .env.local (or use scripts/set-public-gateway-url.ps1)
+  # PHOENIX_PUBLIC_GATEWAY_URL=https://<your-appservice-host>
+  pwsh ./scripts/test-smoke.ps1
+  ```
 
 ## Usage Example
 
@@ -37,38 +39,82 @@ It intentionally excludes UI, orchestration, prompts, routing logic, policy logi
 import { PhoenixClient } from "./sdk/index.js";
 
 const client = PhoenixClient.fromConfig({
-	baseUrl: "http://127.0.0.1:8000",
-	tokenProvider: () => process.env.PHOENIX_TOKEN ?? "",
-	authMode: "managed"
+ baseUrl: process.env.PHOENIX_PUBLIC_GATEWAY_URL ?? (() => { throw new Error("Set PHOENIX_PUBLIC_GATEWAY_URL"); })(),
+ tokenProvider: () => process.env.PHOENIX_TOKEN ?? "",
+ authMode: "managed"
 });
 
 const handshake = await client.authHandshake();
 const tools = await client.toolsList();
 
 const session = await client.sessionStart({
-	schema_version: "v1",
-	event: "session_start",
-	session_id: "sess-001",
-	idempotency_key: "idem-001",
-	sent_at: new Date().toISOString(),
-	project_map: {
-		name: "my-project",
-		godot_version: "4.3",
-		main_scene: "res://main.tscn",
-		scenes: {},
-		scripts: [],
-		resources: { audio: [], sprites: [], tilesets: [] },
-		file_hash: "sha256:...",
-		extras: {}
-	}
+ schema_version: "v1",
+ event: "session_start",
+ session_id: "sess-001",
+ idempotency_key: "idem-001",
+ sent_at: new Date().toISOString(),
+ project_map: {
+  name: "my-project",
+  godot_version: "4.3",
+  main_scene: "res://main.tscn",
+  scenes: {},
+  scripts: [],
+  resources: { audio: [], sprites: [], tilesets: [] },
+  file_hash: "sha256:...",
+  extras: {}
+ }
 });
 
 const negotiate = await client.realtimeNegotiate({
-	session_id: "sess-001",
-	user_id: "user-123"
+ session_id: "sess-001",
+ user_id: "user-123"
 });
 
 console.log(handshake.mode, tools.tools.length, session.accepted, negotiate.event);
+
+const taskReady = await client.negotiateRealtimeAndWaitForTaskReady({
+ sessionId: "sess-001",
+ userId: "user-123",
+ planId: "plan-001"
+});
+
+console.log(taskReady.status.status);
+taskReady.realtimeEvents.close();
+```
+
+## Composed Engine Runtime
+
+Use `EngineFrontendRuntime` when you want one runtime object that combines:
+
+- `PhoenixClient` transport + typed methods
+- session sync and automatic resync on HTTP `409` / realtime `session.resync_required`
+- realtime negotiate/connect lifecycle
+
+```ts
+import { EngineFrontendRuntime, PhoenixClient } from "./sdk/index.js";
+
+const client = PhoenixClient.fromConfig({
+ baseUrl: process.env.PHOENIX_PUBLIC_GATEWAY_URL ?? (() => { throw new Error("Set PHOENIX_PUBLIC_GATEWAY_URL"); })(),
+ tokenProvider: () => process.env.PHOENIX_TOKEN ?? "",
+ authMode: "managed"
+});
+
+const runtime = new EngineFrontendRuntime({
+ client,
+ sessionId: "sess-001",
+ userId: "user-123",
+ snapshotProvider: async () => buildSessionSnapshot()
+});
+
+await runtime.startSession();
+await runtime.connectRealtime();
+
+await runtime.runRealtimeLoop(async (event) => {
+ applyRealtimeEventToUi(event);
+});
+
+const readyStatus = await runtime.waitForTaskReady("plan-001");
+console.log(readyStatus.status);
 ```
 
 ## Boundaries for Engine Consumers

@@ -276,7 +276,7 @@ For interface repo:
 - [x] Implement typed SDK client endpoints for auth/tools/session/task/gateway
 - [x] Implement request/response validators and realtime event envelope validators
 - [x] Add compatibility CI gates
-- [ ] Add SDK-managed WS/SSE realtime transport adapter
+- [x] Add SDK-managed WS/SSE realtime transport adapter
 - [ ] Add `v2` namespace when first breaking contract change is required
 
 For engine repo:

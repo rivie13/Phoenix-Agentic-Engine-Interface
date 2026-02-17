@@ -3,6 +3,12 @@ dist/
 coverage/
 .vitest/
 
+# Local environment files
+.env
+.env.*
+!.env.example
+!.env.local.example
+
 # Private instruction files (must not be committed to public repo)
 .github/instructions/private-*.instructions.md
 .github/instructions/interface-private-*.instructions.md

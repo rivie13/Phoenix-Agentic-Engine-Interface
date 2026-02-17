@@ -1,0 +1,52 @@
+{
+  "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "publicGatewayUrl",
+      "type": "promptString",
+      "description": "Public Gateway URL (Azure App Service)",
+      "default": "https://app-phoenix-gateway-dev.azurewebsites.net"
+    }
+  ],
+  "tasks": [
+    {
+      "label": "dev: typecheck",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "typecheck"],
+      "group": "test"
+    },
+    {
+      "label": "dev: test",
+      "type": "shell",
+      "command": "npm",
+      "args": ["test"],
+      "group": "test"
+    },
+    {
+      "label": "dev: smoke (gateway)",
+      "type": "shell",
+      "command": ".\\scripts\\test-smoke.ps1",
+      "group": "test"
+    },
+    {
+      "label": "dev: azure:set-public-url",
+      "type": "shell",
+      "command": ".\\scripts\\set-public-gateway-url.ps1",
+      "args": [
+        "-Url",
+        "${input:publicGatewayUrl}"
+      ]
+    },
+    {
+      "label": "dev: azure:show-config",
+      "type": "shell",
+      "command": ".\\scripts\\show-public-gateway-url.ps1"
+    },
+    {
+      "label": "dev: azure:sync-from-backend",
+      "type": "shell",
+      "command": ".\\scripts\\sync-public-gateway-url-from-backend.ps1"
+    }
+  ]
+}

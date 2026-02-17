@@ -49,7 +49,7 @@ description: Understand when a change in one Phoenix repo requires changes in th
 ## Checklist for cross-repo changes
 
 1. Identify affected repos using the impact matrix
-2. Get the canonical schema from Backend's `api/schemas/`
+2. Get the canonical payload mirror from Backend's `contracts/fixtures/v1/`
 3. Update fixtures in `contracts/v1/`
 4. Update types in `sdk/client/types.ts`
 5. Update validators in `sdk/validators/`

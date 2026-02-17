@@ -114,7 +114,7 @@ For MVP validation, backend should run in an Azure-shaped local setup as much as
 - Queue path enabled (Service Bus dev namespace/connection or equivalent integration harness)
 - Planning path exercised end-to-end through Interface SDK
 
-Direct FastAPI-only mode is acceptable as fallback for contract/safety stub checks, but not the primary integration target.
+Do not maintain a duplicate Python HTTP route surface alongside Gateway endpoints.
 
 ---
 
@@ -287,7 +287,7 @@ For interface repo:
 - [x] Implement typed SDK client endpoints for auth/tools/session/task/gateway
 - [x] Implement request/response validators and realtime event envelope validators
 - [x] Add compatibility CI gates
-- [ ] Add SDK-managed WS/SSE realtime transport adapter
+- [x] Add SDK-managed WS/SSE realtime transport adapter
 - [ ] Add `v2` namespace when first breaking contract change is required
 
 For engine repo:

@@ -27,7 +27,7 @@ npm test
 # Watch mode during development
 npm run test:watch
 
-# Local smoke test against running backend (http://127.0.0.1:8000)
+# Local smoke test against configured public gateway URL
 npm run test:smoke
 ```
 
@@ -43,7 +43,7 @@ npm run test:smoke
 - All contract and compatibility tests must pass before merging
 - Tests must be deterministic — no network access (except explicit smoke tests)
 - Golden fixture compatibility tests must pass — fixture drift is a breaking change
-- Smoke tests (`npm run test:smoke`) require a running backend at `http://127.0.0.1:8000`
+- Smoke tests (`npm run test:smoke`) require `PHOENIX_PUBLIC_GATEWAY_URL` (typically App Service URL)
 
 ## Contract fixture locations
 
@@ -63,4 +63,4 @@ Golden fixtures live in `contracts/v1/`:
 | Type errors after fixture change | Update types in `sdk/client/types.ts` to match new fixture shape |
 | Vitest failures | Check `vitest.config.ts` and ensure `npm install` was run |
 | `strict: true` errors | Fix type annotations — do not disable strict mode |
-| Fixture drift | Fixtures mirror backend golden tests — sync with `api/schemas/` in Backend |
+| Fixture drift | Sync Interface `contracts/v1` with Backend `contracts/fixtures/v1` |

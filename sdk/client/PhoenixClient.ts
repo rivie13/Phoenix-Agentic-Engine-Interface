@@ -39,7 +39,8 @@ import type {
   ToolInvokeResponse,
   ToolListResponse
 } from "../validators/schemas.js";
-import type { WaitForTaskReadyOptions } from "./types.js";
+import { createRealtimeEventStream } from "../transport/realtimeEventStream.js";
+import type { RealtimeTaskReadyFlowOptions, RealtimeTaskReadyFlowResult, WaitForTaskReadyOptions } from "./types.js";
 import { PhoenixSdkError } from "../transport/errors.js";
 import { PhoenixTransport } from "../transport/phoenixTransport.js";
 import type { PhoenixRequestOptions, PhoenixTransportConfig } from "../transport/types.js";
@@ -228,6 +229,44 @@ export class PhoenixClient {
       waitOptions?.pollIntervalMs ?? DEFAULT_WAIT_FOR_TASK_READY_POLL_INTERVAL_MS,
       waitOptions?.statusRequestOptions
     );
+  }
+
+  public async negotiateRealtimeAndWaitForTaskReady(
+    options: RealtimeTaskReadyFlowOptions
+  ): Promise<RealtimeTaskReadyFlowResult> {
+    const negotiation = await this.realtimeNegotiate(
+      {
+        schema_version: "v1",
+        session_id: options.sessionId,
+        user_id: options.userId
+      },
+      options.negotiateRequestOptions
+    );
+
+    const realtimeEvents = createRealtimeEventStream({
+      url: negotiation.url,
+      accessToken: negotiation.access_token,
+      transport: options.transport,
+      signal: options.signal,
+      webSocketFactory: options.webSocketFactory,
+      eventSourceFactory: options.eventSourceFactory
+    });
+
+    try {
+      const status = await this.waitForTaskReady(options.planId, {
+        ...(options.waitForTaskReady ?? {}),
+        realtimeEvents
+      });
+
+      return {
+        negotiation,
+        realtimeEvents,
+        status
+      };
+    } catch (error) {
+      realtimeEvents.close();
+      throw error;
+    }
   }
 
   public async locksList(options?: PhoenixRequestOptions): Promise<LocksListResponse> {

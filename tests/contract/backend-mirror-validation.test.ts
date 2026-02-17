@@ -15,7 +15,7 @@ import {
 type Validator = (payload: unknown) => unknown;
 
 const configuredRoot = process.env.PHOENIX_BACKEND_FIXTURES_DIR?.trim();
-const fallbackRoot = resolve(process.cwd(), "../Phoenix-Agentic-Engine-Backend/tests/fixtures/contracts/v1");
+const fallbackRoot = resolve(process.cwd(), "../Phoenix-Agentic-Engine-Backend/contracts/fixtures/v1");
 
 const backendFixtureRoot = (() => {
   if (configuredRoot && existsSync(configuredRoot)) {

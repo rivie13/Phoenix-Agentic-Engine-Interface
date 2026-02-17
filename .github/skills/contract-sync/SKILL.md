@@ -10,7 +10,7 @@ description: Synchronize API contracts and golden fixtures between Backend and I
 The Interface repo carries **published fixture mirrors** of the Backend's canonical schemas. The chain is:
 
 ```
-Backend (owns schemas in api/schemas/) → Interface (mirrors as golden fixtures + typed SDK) → Engine (consumes)
+Backend (owns gateway contract behavior + backend fixture mirror) → Interface (mirrors as golden fixtures + typed SDK) → Engine (consumes)
 ```
 
 ## Interface fixture locations
@@ -28,7 +28,7 @@ All golden fixtures live in `contracts/v1/`:
 | `approval_decision.request.json` | `POST /api/v1/task/{plan_id}/approval` request |
 | `approval_decision.response.json` | `POST /api/v1/task/{plan_id}/approval` response |
 | `auth_handshake.response.json` | `POST /api/v1/auth/handshake` response |
-| `tools_list.response.json` | `GET /api/v1/tools/list` response |
+| `tools_list.response.json` | `GET /api/v1/tools` response |
 | `tools_invoke.request.json` | `POST /api/v1/tools/invoke` request |
 | `tools_invoke.response.json` | `POST /api/v1/tools/invoke` response |
 
@@ -36,7 +36,7 @@ All golden fixtures live in `contracts/v1/`:
 
 ### Step 1: Get updated fixtures from Backend
 
-Check Backend repo's `api/schemas/` for the canonical Pydantic models. Generate sample JSON from the models and compare with current fixtures.
+Check Backend repo's `contracts/fixtures/v1/` for the canonical backend-owned mirror payloads and compare with current Interface fixtures.
 
 ### Step 2: Update fixture JSON files
 
