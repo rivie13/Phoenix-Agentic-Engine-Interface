@@ -5,6 +5,17 @@ description: Load Interface repo instruction files into context. Use when workin
 
 # Load Interface Instructions
 
+## Mandatory first step: terminal scope check
+
+Before running any Interface command, verify terminal scope:
+
+1. `Set-Location "C:\Users\rivie\vsCodeProjects\Phoenix-Agentic-Engine-Interface"`
+2. `Get-Location`
+3. `git rev-parse --show-toplevel`
+4. `git branch --show-current`
+
+If scope is wrong, open a fresh Interface-scoped terminal and re-run checks.
+
 ## When to use
 
 When working on code in the **Phoenix-Agentic-Engine-Interface** repo (TypeScript SDK + contracts) and you need repo-specific context. The agent should read the relevant instruction files to understand conventions, architecture, and project structure.

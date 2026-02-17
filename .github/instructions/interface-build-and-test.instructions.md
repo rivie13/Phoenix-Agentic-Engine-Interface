@@ -1,6 +1,17 @@
 
 # Build and test — Phoenix Agentic Engine Interface (TS SDK)
 
+## Repo-scoped terminal/tool discipline (required)
+
+- In this multi-repo workspace, only run Interface commands from the Interface repo root:
+	- `C:\Users\rivie\vsCodeProjects\Phoenix-Agentic-Engine-Interface`
+- Before running scripts/tasks/tools, verify scope in the active terminal:
+	- `Get-Location`
+	- `git rev-parse --show-toplevel`
+	- `git branch --show-current`
+- If repo root or branch is wrong, open a fresh terminal for this repo and re-run the checks.
+- Do not run Interface scripts from Engine or Backend terminal contexts.
+
 ## Setup
 
 ```bash

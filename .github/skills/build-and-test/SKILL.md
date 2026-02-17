@@ -5,6 +5,17 @@ description: Build, test, lint, and validate the Phoenix Agentic Engine Interfac
 
 # Build & Test — Phoenix Agentic Engine Interface (TypeScript SDK)
 
+## Mandatory first step: terminal scope check
+
+Before build/test commands, verify terminal scope:
+
+1. `Set-Location "C:\Users\rivie\vsCodeProjects\Phoenix-Agentic-Engine-Interface"`
+2. `Get-Location`
+3. `git rev-parse --show-toplevel`
+4. `git branch --show-current`
+
+If scope is wrong, open a fresh Interface-scoped terminal and retry.
+
 ## Repo Identity
 
 This is the **public Interface SDK** (TypeScript). It defines contracts between Engine and Backend.
