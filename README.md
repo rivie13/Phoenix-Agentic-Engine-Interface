@@ -121,17 +121,20 @@ console.log(readyStatus.status);
 
 - Engine repo must own approval UI and decision UX.
 - Engine repo must own local command execution allowlist/runtime.
+- Backend emits signed command/tool intents; engine-side capability repos execute local/runtime tool actions.
 - Engine repo should use this SDK for transport, typing, retry behavior, and envelope validation.
 
 See [docs/CLIENT_BACKEND_CONNECTION.md](docs/CLIENT_BACKEND_CONNECTION.md) for the three-repo ownership model.
 
 ## Engine Repo Next Checklist
 
-- [ ] Integrate this SDK into engine runtime adapter layer.
-- [ ] Implement approval UI for `ProposedActionBatch`.
-- [ ] Implement deterministic command executor allowlist for `CommandResponse`.
+- [x] Integrate contract-aligned engine adapter layer (direct C++ backend adapter path).
+- [x] Implement approval UI for `ProposedActionBatch`.
+- [x] Implement deterministic command executor allowlist for `CommandResponse`.
 - [ ] Add engine-side UI + executor tests.
 - [ ] Implement conflict (`409`) resync flow and delta sequencing UX.
 - [ ] Consume typed realtime gateway methods: `realtimeNegotiate`, `taskStatus`, `locksList`, `lockRelease`.
+
+Current architecture note: Engine runtime currently uses a direct C++ backend adapter aligned to Interface v1 contract shapes; full in-engine SDK embedding remains a future option if/when a native TS bridge/runtime is introduced.
 
 See [docs/ENGINE_MIGRATION_0.2.0-rc.1.md](docs/ENGINE_MIGRATION_0.2.0-rc.1.md) for a concise upgrade guide.

@@ -35,9 +35,10 @@ The interface repo is a protocol layer, **not** a UI product.
 - Owns approval dialogs and user decisions
 - Owns command executor and local tool execution
 - Owns scene snapshot and delta capture
+- Owns runtime/tool execution surfaces in frontend capability repos (`godot-mcp`, `godot-ai-autonomous-agent`, `godot-mcp-docs`, `godot-copilot`)
 - Depends on interface SDK/contracts
 
-### Interface Repo (Public)
+### Interface Repo Layout (Public)
 
 - Owns request/response schemas and contract versioning
 - Owns typed client, retry/idempotency behavior, and envelope validation
@@ -51,6 +52,7 @@ The interface repo is a protocol layer, **not** a UI product.
 - Owns policy/risk decisions and approval requirements
 - Owns sanitization/redaction and model/provider routing
 - Owns canonical contract fixtures and authoritative contract (golden) tests
+- Emits signed command/tool-intent payloads; does not execute engine-local tooling directly
 
 ---
 
@@ -133,8 +135,8 @@ Contract rules:
 
 - **Engine UI** renders approval experience
 - Engine submits approval decision via interface SDK
-- Backend returns executable `CommandResponse`
-- **Engine executor** runs allowed commands locally
+- Backend returns executable/signed `CommandResponse` (command intent payload)
+- **Engine executor** runs allowed commands locally (including frontend capability repo runtime/tool actions)
 
 ---
 
@@ -250,7 +252,7 @@ tests/
   compatibility/
 ```
 
-### Engine Repo (Public)
+### Engine Repo Layout (Public)
 
 ```text
 modules/.../ui/
@@ -281,10 +283,12 @@ For interface repo:
 
 For engine repo:
 
-- [ ] Integrate interface SDK client
-- [ ] Implement approval UI for `ProposedActionBatch`
-- [ ] Implement command executor allowlist for `CommandResponse`
+- [x] Integrate contract-aligned engine adapter (direct C++ backend adapter path)
+- [x] Implement approval UI for `ProposedActionBatch`
+- [x] Implement command executor allowlist for `CommandResponse`
 - [ ] Add UI/executor tests
+
+Current architecture note: the engine runtime currently uses a direct C++ backend adapter aligned to Interface v1 contracts; a full in-engine Interface SDK embedding remains a future option if a native TS bridge/runtime is introduced.
 
 For backend repo (private):
 
