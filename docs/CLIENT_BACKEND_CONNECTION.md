@@ -81,16 +81,18 @@ Never publish from private backend internals:
 HTTP endpoints:
 
 1. `POST /api/v1/auth/handshake`
-2. `GET /api/v1/tools`
-3. `POST /api/v1/tools/invoke`
-4. `POST /api/v1/session/start`
-5. `POST /api/v1/session/delta`
-6. `POST /api/v1/task/request`
-7. `POST /api/v1/task/{plan_id}/approval`
-8. `POST /api/v1/realtime/negotiate`
-9. `GET /api/v1/task/{plan_id}`
-10. `GET /api/v1/locks`
-11. `POST /api/v1/locks/{lock_id}/release`
+2. `POST /api/v1/device/enroll`
+3. `POST /api/v1/auth/refresh`
+4. `GET /api/v1/tools`
+5. `POST /api/v1/tools/invoke`
+6. `POST /api/v1/session/start`
+7. `POST /api/v1/session/delta`
+8. `POST /api/v1/task/request`
+9. `POST /api/v1/task/{plan_id}/approval`
+10. `POST /api/v1/realtime/negotiate`
+11. `GET /api/v1/task/{plan_id}`
+12. `GET /api/v1/locks`
+13. `POST /api/v1/locks/{lock_id}/release`
 
 Core model flow:
 
@@ -194,6 +196,13 @@ Mode behavior:
 
 - BYOK: engine captures user credential, backend still orchestrates
 - Managed: backend-issued session/JWT, backend handles provider keys
+
+Channel policy:
+
+- Public/main/release artifacts are treated as production channel.
+- Production channel must use server-issued JWT credentials for backend runtime endpoints.
+- Static client bearer token auth is dev-only and must not be treated as a production contract.
+- Interface SDK and smoke tooling must not rely on fallback default bearer tokens.
 
 ---
 

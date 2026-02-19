@@ -30,6 +30,25 @@
       "group": "test"
     },
     {
+      "label": "dev: azure:bootstrap",
+      "type": "shell",
+      "command": ".\\scripts\\bootstrap-dev-azure.ps1"
+    },
+    {
+      "label": "dev: azure:connectivity-check",
+      "type": "shell",
+      "command": ".\\scripts\\check-dev-connectivity.ps1",
+      "group": "test"
+    },
+    {
+      "label": "dev: azure:allowlist-my-ip (backend)",
+      "type": "shell",
+      "command": "..\\Phoenix-Agentic-Engine-Backend\\scripts\\azure-gateway.ps1",
+      "args": [
+        "allowlist-my-ip"
+      ]
+    },
+    {
       "label": "dev: azure:set-public-url",
       "type": "shell",
       "command": ".\\scripts\\set-public-gateway-url.ps1",

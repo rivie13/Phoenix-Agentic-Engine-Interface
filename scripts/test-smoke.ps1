@@ -42,6 +42,19 @@ if ([string]::IsNullOrWhiteSpace($env:PHOENIX_PUBLIC_GATEWAY_URL)) {
 
 $env:PHOENIX_TEST_BASE_URL = $env:PHOENIX_PUBLIC_GATEWAY_URL
 
+if ([string]::IsNullOrWhiteSpace($env:PHOENIX_TEST_TOKEN) -and -not [string]::IsNullOrWhiteSpace($env:PHOENIX_API_TOKEN)) {
+    $env:PHOENIX_TEST_TOKEN = $env:PHOENIX_API_TOKEN
+}
+
+if ([string]::IsNullOrWhiteSpace($env:PHOENIX_TEST_TOKEN)) {
+    throw "PHOENIX_TEST_TOKEN is required. Set PHOENIX_API_TOKEN or PHOENIX_TEST_TOKEN in .env.local."
+}
+
+& ".\scripts\check-dev-connectivity.ps1" -EnvFile ".env.local"
+if ($LASTEXITCODE -ne 0) {
+    exit $LASTEXITCODE
+}
+
 npm run test:smoke
 if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE

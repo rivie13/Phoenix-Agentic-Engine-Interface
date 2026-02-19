@@ -9,10 +9,17 @@ if (-not (Test-Path $backendEnv)) {
 }
 
 $url = ""
+$apiToken = ""
+$authMode = ""
 foreach ($line in Get-Content -Path $backendEnv) {
     if ($line -match '^\s*PHOENIX_PUBLIC_GATEWAY_URL=(.*)$') {
         $url = $matches[1].Trim()
-        break
+    }
+    elseif ($line -match '^\s*PHOENIX_API_TOKEN=(.*)$') {
+        $apiToken = $matches[1].Trim()
+    }
+    elseif ($line -match '^\s*PHOENIX_AUTH_MODE=(.*)$') {
+        $authMode = $matches[1].Trim()
     }
 }
 
@@ -20,5 +27,14 @@ if ([string]::IsNullOrWhiteSpace($url)) {
     throw "PHOENIX_PUBLIC_GATEWAY_URL is not set in backend .env.local"
 }
 
-& (Join-Path $repoRoot "scripts\set-public-gateway-url.ps1") -Url $url
+if ([string]::IsNullOrWhiteSpace($authMode)) {
+    $authMode = "managed"
+}
+
+$setArgs = @("-Url", $url, "-AuthMode", $authMode, "-ConfigSource", "backend:.env.local")
+if (-not [string]::IsNullOrWhiteSpace($apiToken)) {
+    $setArgs += @("-ApiToken", $apiToken)
+}
+
+& (Join-Path $repoRoot "scripts\set-public-gateway-url.ps1") @setArgs
 Write-Host "Synced interface PHOENIX_PUBLIC_GATEWAY_URL from backend .env.local" -ForegroundColor Green

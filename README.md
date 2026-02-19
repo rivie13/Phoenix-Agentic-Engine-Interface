@@ -13,6 +13,16 @@ It intentionally excludes UI, orchestration, prompts, routing logic, policy logi
 
 ## Quickstart
 
+Secure dev Azure bootstrap (recommended before smoke/editor sessions):
+
+```powershell
+# Sync dev endpoint + auth config from backend and validate connectivity/auth
+.\scripts\bootstrap-dev-azure.ps1
+
+# Optional standalone preflight check
+.\scripts\check-dev-connectivity.ps1
+```
+
 1. Install dependencies:
 
   ```bash

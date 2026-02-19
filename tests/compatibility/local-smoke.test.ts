@@ -32,6 +32,10 @@ maybeDescribe("Gateway smoke (optional)", () => {
     }
     const timeoutCandidate = Number(process.env.PHOENIX_SMOKE_TIMEOUT_MS ?? "10000");
     const timeoutMs = Number.isFinite(timeoutCandidate) && timeoutCandidate > 0 ? timeoutCandidate : 10000;
+    const smokeToken = process.env.PHOENIX_TEST_TOKEN?.trim() ?? "";
+    if (!smokeToken) {
+      throw new Error("PHOENIX_TEST_TOKEN is required for smoke tests.");
+    }
     const userId = process.env.PHOENIX_TEST_USER_ID ?? "smoke-user";
     const suffix = uniqueSuffix();
     const sessionId = `sess-smoke-${suffix}`;
@@ -72,7 +76,7 @@ maybeDescribe("Gateway smoke (optional)", () => {
 
     const client = PhoenixClient.fromConfig({
       baseUrl,
-      tokenProvider: process.env.PHOENIX_TEST_TOKEN ?? "local-dev-token",
+      tokenProvider: smokeToken,
       authMode: process.env.PHOENIX_AUTH_MODE,
       retry: {
         maxRetries: 2,
