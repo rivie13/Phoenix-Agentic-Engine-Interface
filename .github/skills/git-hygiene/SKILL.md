@@ -59,7 +59,13 @@ Recommended prefixes: `feat`, `fix`, `chore`, `docs`, `test`.
 mcp_github_github_create_pull_request(owner="rivie13", repo="Phoenix-Agentic-Engine-Interface", title="...", body="...", head="<branch>", base="main")
 ```
 
-2. Request Copilot review:
+2. Check whether Copilot review already exists for the latest commits:
+
+```text
+mcp_github_github_pull_request_read(method="get_reviews", owner="rivie13", repo="Phoenix-Agentic-Engine-Interface", pullNumber=<PR_NUMBER>)
+```
+
+If Copilot review is missing for the latest commit set, request it:
 
 ```text
 mcp_github_github_request_copilot_review(owner="rivie13", repo="Phoenix-Agentic-Engine-Interface", pullNumber=<PR_NUMBER>)

@@ -46,6 +46,16 @@ mcp_github_github_list_pull_requests(owner="rivie13", repo="Phoenix-Agentic-Engi
 
 ## Request Copilot Review
 
+Copilot review is often auto-triggered. Before requesting manually, check whether a Copilot review already exists for the latest commit set on the PR.
+
+Use:
+
+```
+mcp_github_github_pull_request_read(method="get_reviews", owner="rivie13", repo="Phoenix-Agentic-Engine-Interface", pullNumber=<PR_NUMBER>)
+```
+
+Only request Copilot review if it is missing for the latest commits:
+
 ```
 mcp_github_github_request_copilot_review(owner="rivie13", repo="Phoenix-Agentic-Engine-Interface", pullNumber=<PR_NUMBER>)
 ```

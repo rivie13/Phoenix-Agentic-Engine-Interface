@@ -49,7 +49,8 @@ Use it whenever making code changes, preparing pull requests, or handling review
   - Why it changed
   - Backward compatibility notes (especially contracts)
   - Validation commands and outcomes
-- Request Copilot review before human review when possible.
+- Treat Copilot review as auto-requested by default when available.
+- Only request Copilot review manually when no Copilot review exists for the latest commit set on the PR.
 
 ## Review hygiene (Copilot + humans)
 
@@ -66,7 +67,8 @@ Use it whenever making code changes, preparing pull requests, or handling review
 Prefer MCP tools over raw terminal git/GitHub commands for:
 - Creating and updating PRs
 - Listing PRs/reviews/comments
-- Requesting Copilot review
+- Checking whether Copilot review already exists
+- Requesting Copilot review only when missing for latest commits
 - Reading and responding to review feedback
 - Listing workflow runs/jobs and reviewing failed logs
 
