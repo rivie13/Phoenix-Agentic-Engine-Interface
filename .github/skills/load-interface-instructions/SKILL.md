@@ -32,6 +32,7 @@ All files live in `Phoenix-Agentic-Engine-Interface/.github/instructions/`:
 | `interface-private-architecture.instructions.md` | SDK architecture, transport layer | When making architectural decisions |
 | `interface-private-roadmap.instructions.md` | Milestone plan, next tasks | When planning work or checking status |
 | `interface-private-strategy.instructions.md` | What belongs here vs Backend | When deciding where code should live |
+| `interface-git-hygiene.instructions.md` | Branch/commit/PR/review hygiene and MCP usage | When preparing commits, PRs, and review follow-up |
 
 **Also available**: `interface-code-review.instructions.md` — manual-only, load when reviewing PRs. Has `excludeAgent` guard to block the autonomous coding agent.
 
@@ -55,6 +56,7 @@ read_file("Phoenix-Agentic-Engine-Interface/.github/instructions/interface-build
 read_file("Phoenix-Agentic-Engine-Interface/.github/instructions/interface-private-architecture.instructions.md")
 read_file("Phoenix-Agentic-Engine-Interface/.github/instructions/interface-private-roadmap.instructions.md")
 read_file("Phoenix-Agentic-Engine-Interface/.github/instructions/interface-private-strategy.instructions.md")
+read_file("Phoenix-Agentic-Engine-Interface/.github/instructions/interface-git-hygiene.instructions.md")
 ```
 
 ### Load all (when full context is needed)
@@ -65,4 +67,5 @@ read_file("Phoenix-Agentic-Engine-Interface/.github/instructions/interface-proje
 read_file("Phoenix-Agentic-Engine-Interface/.github/instructions/interface-private-architecture.instructions.md")
 read_file("Phoenix-Agentic-Engine-Interface/.github/instructions/interface-private-roadmap.instructions.md")
 read_file("Phoenix-Agentic-Engine-Interface/.github/instructions/interface-private-strategy.instructions.md")
+read_file("Phoenix-Agentic-Engine-Interface/.github/instructions/interface-git-hygiene.instructions.md")
 ```

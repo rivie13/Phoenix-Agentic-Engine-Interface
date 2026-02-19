@@ -50,6 +50,17 @@ mcp_github_github_list_pull_requests(owner="rivie13", repo="Phoenix-Agentic-Engi
 mcp_github_github_request_copilot_review(owner="rivie13", repo="Phoenix-Agentic-Engine-Interface", pullNumber=<PR_NUMBER>)
 ```
 
+## Verify PR workflow checks
+
+Before marking a PR ready/mergeable:
+
+```text
+mcp_github_github_actions_list(method="list_workflow_runs", owner="rivie13", repo="Phoenix-Agentic-Engine-Interface")
+mcp_github_github_actions_list(method="list_workflow_jobs", owner="rivie13", repo="Phoenix-Agentic-Engine-Interface", resource_id="<RUN_ID>")
+```
+
+If any workflow/job failed, fetch logs, fix root causes, and re-check until required checks are green.
+
 ## Branch conventions
 
 - `feature/<name>` — new features

@@ -2,6 +2,7 @@ export { PhoenixClient } from "./client/PhoenixClient.js";
 export { EngineFrontendRuntime, createEngineFrontendRuntime } from "./client/EngineFrontendRuntime.js";
 export { EngineSessionSyncAdapter } from "./client/EngineSessionSyncAdapter.js";
 export { createRealtimeEventStream } from "./transport/realtimeEventStream.js";
+export { ToolResultAcceptedResponseSchema, ToolResultSchema } from "./validators/schemas.js";
 export type {
   ApprovalDecisionRequest,
   AuthHandshakeResponse,
@@ -19,6 +20,8 @@ export type {
   TaskRequest,
   TaskRequestAcceptedResponse,
   TaskStatusResponse,
+  ToolResult,
+  ToolResultAcceptedResponse,
   ToolInvokeRequest,
   ToolInvokeResponse,
   ToolListResponse

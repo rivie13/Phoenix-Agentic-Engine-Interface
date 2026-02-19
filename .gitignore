@@ -12,3 +12,6 @@ coverage/
 # Private instruction files (must not be committed to public repo)
 .github/instructions/private-*.instructions.md
 .github/instructions/interface-private-*.instructions.md
+
+# Agent prompts (private, never commit)
+prompts/

@@ -54,6 +54,22 @@ maybeDescribe("Backend fixture mirror validation", () => {
   for (const testCase of fixtureCases) {
     it(`validates backend fixture ${testCase.fileName} against Interface schema`, () => {
       const payload = loadFixture(testCase.fileName);
+
+      if (
+        testCase.fileName === "task_status_response.json" &&
+        payload !== null &&
+        typeof payload === "object"
+      ) {
+        const { awaiting_tool_results_variant, ...basePayload } = payload as Record<string, unknown>;
+        expect(() => testCase.validator(basePayload)).not.toThrow();
+
+        if (awaiting_tool_results_variant !== undefined) {
+          expect(() => testCase.validator(awaiting_tool_results_variant)).not.toThrow();
+        }
+
+        return;
+      }
+
       expect(() => testCase.validator(payload)).not.toThrow();
     });
   }

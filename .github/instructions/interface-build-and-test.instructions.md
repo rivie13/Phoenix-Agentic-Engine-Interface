@@ -24,6 +24,9 @@ npm install
 # TypeScript compilation
 npm run build
 
+# Lint
+npm run lint
+
 # Type-check only (no emit)
 npm run typecheck
 ```
@@ -43,6 +46,7 @@ npm run test:smoke
 
 ## Validation expectations
 
+- Lint (`npm run lint`) must succeed with zero errors.
 - All contract and compatibility tests must pass before merging.
 - Tests must be deterministic and must not require network access (except explicit smoke tests).
 - PRs should include what was tested and how.

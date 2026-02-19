@@ -32,6 +32,8 @@ Secure dev Azure bootstrap (recommended before smoke/editor sessions):
 1. Run validation and compatibility tests:
 
   ```bash
+  npm run lint
+  npm run typecheck
   npm test
   ```
 
@@ -148,3 +150,5 @@ See [docs/CLIENT_BACKEND_CONNECTION.md](docs/CLIENT_BACKEND_CONNECTION.md) for t
 Current architecture note: Engine runtime currently uses a direct C++ backend adapter aligned to Interface v1 contract shapes; full in-engine SDK embedding remains a future option if/when a native TS bridge/runtime is introduced.
 
 See [docs/ENGINE_MIGRATION_0.2.0-rc.1.md](docs/ENGINE_MIGRATION_0.2.0-rc.1.md) for a concise upgrade guide.
+
+For branch/commit/PR standards, see [docs/GIT_HYGIENE.md](docs/GIT_HYGIENE.md).
