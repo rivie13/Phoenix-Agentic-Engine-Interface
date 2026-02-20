@@ -21,12 +21,20 @@ description: Create, update, and manage GitHub pull requests across Phoenix repo
 ## PR size discipline (mandatory)
 
 - Keep PRs small and focused — one logical change per PR.
-- If a feature branch grows large, break it into sub-branches:
-  1. Create sub-branches off the feature branch for discrete pieces of work.
-  2. Open PRs from each sub-branch into the feature branch.
-  3. Once sub-branch PRs are merged into the feature branch, open a single PR from the feature branch into `main`.
-- Target: PRs should ideally be under ~400 lines of meaningful change.
-- If a PR exceeds this, strongly consider splitting before requesting review.
+- Use the three-tier branch hierarchy to keep PRs reviewable:
+  1. Create `subfeature/<type>/<description>` branches off the parent `feature/<topic>` branch for discrete pieces of work.
+  2. Open PRs from each subfeature branch into the feature branch (small, reviewable).
+  3. Once subfeature PRs are merged, open a single PR from the feature branch into `main` (large, expected).
+- Target: Subfeature PRs should ideally be under ~400 lines of meaningful change.
+- If a PR exceeds this, strongly consider splitting into additional subfeature branches before requesting review.
+
+### Branch hierarchy
+
+| Tier | Pattern | Branches from | PR targets |
+|---|---|---|---|
+| Stable | `main` | — | — |
+| Feature | `feature/<topic>` | `main` | `main` |
+| Subfeature | `subfeature/<type>/<description>` | `feature/<topic>` | `feature/<topic>` |
 
 ## Create a Pull Request
 
@@ -45,7 +53,7 @@ mcp_github_github_create_pull_request(
   title="<descriptive title>",
   body="<description>",
   head="<feature-branch>",
-  base="main"
+  base="<parent branch>"  # main for feature branches; feature/<topic> for subfeature branches
 )
 ```
 
@@ -93,9 +101,14 @@ If any workflow/job failed, fetch logs, fix root causes, and re-check until requ
 
 ## Branch conventions
 
-- `feature/<name>` — new features
-- `fix/<name>` — bug fixes
-- `contract/<name>` — contract/schema changes
+- `feature/<name>` — large deliverables (epic-level), branches from `main`, PR targets `main`
+- `subfeature/task/<name>` — new functionality within a feature
+- `subfeature/bugfix/<name>` — bug fixes within a feature
+- `subfeature/refactor/<name>` — refactoring within a feature
+- `subfeature/test/<name>` — test additions/fixes within a feature
+- `subfeature/docs/<name>` — documentation within a feature
+- `subfeature/chore/<name>` — maintenance/tooling within a feature
+- `contract/<name>` — contract/schema changes (legacy, prefer subfeature pattern)
 
 ## Issue creation (public repo — never use `gh` CLI)
 
@@ -104,3 +117,19 @@ If any workflow/job failed, fetch logs, fix root causes, and re-check until requ
 - Do NOT create public issues for private/sensitive matters (secrets, auth, proprietary logic, security vulnerabilities).
 - Search for existing issues before creating duplicates using `mcp_github_github_search_issues`.
 - Use issues to break large features into smaller, trackable units of work.
+
+## Issue–branch alignment
+
+| Issue type | Label | Branch pattern | PR target |
+|---|---|---|---|
+| Epic | `epic` | `feature/<topic>` | `main` |
+| Task | `task` | `subfeature/task/<description>` | `feature/<topic>` |
+| Bug | `bug` | `subfeature/bugfix/<description>` | `feature/<topic>` |
+| Refactor | `refactor` | `subfeature/refactor/<description>` | `feature/<topic>` |
+| Test | `test` | `subfeature/test/<description>` | `feature/<topic>` |
+| Docs | `docs` | `subfeature/docs/<description>` | `feature/<topic>` |
+| Chore | `chore` | `subfeature/chore/<description>` | `feature/<topic>` |
+
+- Epic issues map to `feature/*` branches; close the epic when the feature branch merges to `main`.
+- Sub-issues map to `subfeature/<type>/<description>` branches; close with `Closes #N` in the subfeature PR.
+- Create sub-issues via `mcp_github_github_sub_issue_write`.

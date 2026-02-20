@@ -39,12 +39,12 @@ git checkout -b feature/<short-topic>
 ## PR size discipline (mandatory)
 
 - Keep PRs small and focused — one logical change per PR.
-- If a feature branch grows large, break it into sub-branches:
-  1. Create sub-branches off the feature branch for discrete pieces of work.
-  2. Open PRs from each sub-branch into the feature branch.
-  3. Once sub-branch PRs are merged into the feature branch, open a single PR from the feature branch into `main`.
-- Target: PRs should ideally be under ~400 lines of meaningful change.
-- If a PR exceeds this, strongly consider splitting before requesting review.
+- Use the three-tier branch hierarchy to keep PRs reviewable:
+  1. Create `subfeature/<type>/<description>` branches off the parent `feature/<topic>` branch for discrete pieces of work.
+  2. Open PRs from each subfeature branch into the feature branch (small, reviewable).
+  3. Once subfeature PRs are merged, open a single PR from the feature branch into `main` (large, expected).
+- Target: Subfeature PRs should ideally be under ~400 lines of meaningful change.
+- If a PR exceeds this, strongly consider splitting into additional subfeature branches before requesting review.
 
 ## Pre-commit quality gate (required)
 
@@ -121,3 +121,19 @@ If any job fails, use the GitHub Actions Debug skill flow to inspect logs, fix r
 - For non-sensitive, public-facing work: assign to Copilot (cloud agent) using `mcp_github_github_assign_copilot_to_issue`.
 - Do NOT create public issues for private/sensitive matters.
 - Search for existing issues before creating duplicates using `mcp_github_github_search_issues`.
+
+## Issue–branch alignment
+
+| Issue type | Label | Branch pattern | PR target |
+|---|---|---|---|
+| Epic | `epic` | `feature/<topic>` | `main` |
+| Task | `task` | `subfeature/task/<description>` | `feature/<topic>` |
+| Bug | `bug` | `subfeature/bugfix/<description>` | `feature/<topic>` |
+| Refactor | `refactor` | `subfeature/refactor/<description>` | `feature/<topic>` |
+| Test | `test` | `subfeature/test/<description>` | `feature/<topic>` |
+| Docs | `docs` | `subfeature/docs/<description>` | `feature/<topic>` |
+| Chore | `chore` | `subfeature/chore/<description>` | `feature/<topic>` |
+
+- Epic issues map to `feature/*` branches; close the epic when the feature branch merges to `main`.
+- Sub-issues map to `subfeature/<type>/<description>` branches; close with `Closes #N` in the subfeature PR.
+- Create sub-issues via `mcp_github_github_sub_issue_write`.
