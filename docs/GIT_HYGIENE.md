@@ -11,10 +11,20 @@ This repo is a protocol SDK and contract layer. Keep changes small, validated, a
 
 ## Branch hygiene
 
-- Branch from `main`
-- Use focused branch names (`feature/*`, `fix/*`, `contract/*`, `chore/*`)
+Three-tier branch hierarchy:
+
+| Tier | Pattern | Branches from | PR targets |
+|---|---|---|---|
+| Stable | `main` | — | — |
+| Feature | `feature/<topic>` | `main` | `main` |
+| Subfeature | `subfeature/<type>/<description>` | `feature/<topic>` | `feature/<topic>` |
+
+Subfeature types: `task`, `bugfix`, `refactor`, `test`, `docs`, `chore`
+
+- Branch from `main` for new feature branches
+- Branch from the parent `feature/*` for subfeature work
 - Keep one concern per branch/PR
-- Re-sync with `main` before opening/updating PR
+- Re-sync with parent branch before opening/updating PR
 
 ## Validation before commit
 
@@ -49,9 +59,12 @@ If a command fails, fix before commit.
 ## PR size discipline (mandatory)
 
 - Keep PRs small and focused — one logical change per PR.
-- If a feature branch grows large, break it into sub-branches targeting the feature branch.
-- Target: PRs should ideally be under ~400 lines of meaningful change.
-- Flag oversized PRs and split before requesting review.
+- Use the three-tier branch hierarchy to keep PRs reviewable:
+  1. Create `subfeature/<type>/<description>` branches off the parent `feature/<topic>` branch.
+  2. Open PRs from each subfeature branch into the feature branch (small, reviewable).
+  3. Once subfeature PRs are merged, open a single PR from the feature branch into `main` (large, expected).
+- Target: Subfeature PRs should ideally be under ~400 lines of meaningful change.
+- Flag oversized PRs and split into additional subfeature branches before requesting review.
 
 ## Issue creation (public repo)
 
@@ -59,6 +72,21 @@ If a command fails, fix before commit.
 - For non-sensitive, public-facing work: assign to Copilot (cloud agent) using `mcp_github_github_assign_copilot_to_issue`.
 - Do NOT create public issues for private/sensitive matters.
 - Search for existing issues before creating duplicates.
+
+## Issue–branch alignment
+
+| Issue type | Label | Branch pattern | PR target |
+|---|---|---|---|
+| Epic | `epic` | `feature/<topic>` | `main` |
+| Task | `task` | `subfeature/task/<description>` | `feature/<topic>` |
+| Bug | `bug` | `subfeature/bugfix/<description>` | `feature/<topic>` |
+| Refactor | `refactor` | `subfeature/refactor/<description>` | `feature/<topic>` |
+| Test | `test` | `subfeature/test/<description>` | `feature/<topic>` |
+| Docs | `docs` | `subfeature/docs/<description>` | `feature/<topic>` |
+| Chore | `chore` | `subfeature/chore/<description>` | `feature/<topic>` |
+
+- Epic issues map to `feature/*` branches; close the epic when the feature branch merges to `main`.
+- Sub-issues map to `subfeature/<type>/<description>` branches; close with `Closes #N` in the subfeature PR.
 
 ## Review workflow
 
