@@ -5,6 +5,13 @@ description: Enforce branch hygiene, pre-commit validation, PR setup via GitHub 
 
 # Git Hygiene — Phoenix Agentic Engine Interface
 
+## CLI tool policy (mandatory)
+
+- **NEVER use `gh` CLI** — it is not installed and must not be used.
+- **Always prefer GitHub MCP tools** (`mcp_github_*`) for all GitHub operations.
+- Fall back to terminal `git` commands only for local worktree operations or when MCP tools fail.
+- Do NOT suggest or attempt any `gh` subcommand.
+
 ## Mandatory first step: terminal scope check
 
 1. `Set-Location "C:\Users\rivie\vsCodeProjects\Phoenix-Agentic-Engine-Interface"`
@@ -29,6 +36,16 @@ git checkout -b feature/<short-topic>
 
 3. Keep PR scope single-purpose and small.
 
+## PR size discipline (mandatory)
+
+- Keep PRs small and focused — one logical change per PR.
+- If a feature branch grows large, break it into sub-branches:
+  1. Create sub-branches off the feature branch for discrete pieces of work.
+  2. Open PRs from each sub-branch into the feature branch.
+  3. Once sub-branch PRs are merged into the feature branch, open a single PR from the feature branch into `main`.
+- Target: PRs should ideally be under ~400 lines of meaningful change.
+- If a PR exceeds this, strongly consider splitting before requesting review.
+
 ## Pre-commit quality gate (required)
 
 Run all:
@@ -51,7 +68,7 @@ git commit -m "feat: <short summary>"
 
 Recommended prefixes: `feat`, `fix`, `chore`, `docs`, `test`.
 
-## PR workflow (prefer GitHub MCP tools)
+## PR workflow (use GitHub MCP tools — never `gh` CLI)
 
 1. Create PR:
 
@@ -97,3 +114,10 @@ If any job fails, use the GitHub Actions Debug skill flow to inspect logs, fix r
 - PR workflow/status checks are green
 - Contract changes include fixture + schema + tests
 - No backend-only logic added (prompts/orchestration/policy)
+
+## Issue creation (public repo — never use `gh` CLI)
+
+- Create issues using `mcp_github_github_issue_write`.
+- For non-sensitive, public-facing work: assign to Copilot (cloud agent) using `mcp_github_github_assign_copilot_to_issue`.
+- Do NOT create public issues for private/sensitive matters.
+- Search for existing issues before creating duplicates using `mcp_github_github_search_issues`.

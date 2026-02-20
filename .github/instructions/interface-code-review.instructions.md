@@ -48,6 +48,24 @@ Priorities: maintain contract compatibility, enforce publish-safe boundaries, an
 - Avoid adding secrets, credentials, or proprietary content anywhere in the repo.
 - Ensure all new code has corresponding test coverage.
 
+## CLI tool policy (mandatory)
+
+- **NEVER use `gh` CLI** — it is not installed and must not be used.
+- **Always prefer GitHub MCP tools** (`mcp_github_*`) for all GitHub operations.
+- Fall back to terminal `git` commands only for local worktree operations or when MCP tools fail.
+
+## PR size discipline
+
+- Keep PRs small — one logical change per PR.
+- Flag oversized PRs and request splitting.
+- If a feature branch is large, recommend sub-branches targeting the feature branch.
+
+## Issue creation (public repo)
+
+- Create issues for trackable work using GitHub MCP tools — never `gh issue create`.
+- For non-sensitive, public-facing work: assign to Copilot (cloud agent).
+- Do NOT create public issues for private/sensitive matters.
+
 ## What to request from authors (when missing)
 
 - Explanation of why a contract change is needed and backward compatibility assessment.
