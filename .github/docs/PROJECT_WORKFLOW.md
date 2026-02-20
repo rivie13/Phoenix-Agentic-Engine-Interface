@@ -191,12 +191,26 @@ When you decide a task should be handled by Copilot coding agent instead of loca
 ### How It Works
 
 1. Create the issue in the appropriate repo
-2. Add the `cloud-agent` label to the issue
-3. The `cloud-agent-assign.yml` workflow fires automatically
-4. The workflow assigns Copilot to the issue
-5. Copilot coding agent picks up the issue, works on it, and opens a PR
-6. The `project-board-sync.yml` workflow auto-adds the PR to the project board
-7. You review the PR in the "In Review" column
+2. **Move the issue to "Ready" status on the project board** (required)
+3. Add the `cloud-agent` label to the issue
+4. The `cloud-agent-assign.yml` workflow fires automatically and performs these checks:
+   - **Permission guard**: Actor must have write/maintain/admin permission (+ optional `CLOUD_AGENT_ALLOWED_USERS` allowlist)
+   - **Ready guard**: Issue must be in **Ready** status on the project board — issues in Backlog, No Status, or any other status are **rejected**
+5. If both guards pass:
+   - Copilot is assigned to the issue
+   - Project board **Status** is automatically updated to **In Progress**
+   - Project board **Work mode** is automatically set to **Cloud Agent**
+6. Copilot coding agent picks up the issue, works on it, and opens a PR
+7. The `project-board-sync.yml` workflow auto-adds the PR to the project board
+8. You review the PR in the "In Review" column
+
+### Safeguards
+
+| Guard | What it checks | On failure |
+|-------|---------------|------------|
+| Permission | Actor has write/maintain/admin repo access | Label removed, comment posted |
+| Allowlist (optional) | Actor is in `CLOUD_AGENT_ALLOWED_USERS` repo variable | Label removed, comment posted |
+| Ready status | Issue is in "Ready" on project board | Label removed, comment posted with instructions |
 
 ### When to Use Cloud Agent
 
@@ -214,12 +228,34 @@ When you decide a task should be handled by Copilot coding agent instead of loca
 - Performance optimization requiring profiling
 - Anything requiring access to running services or local state
 
-### From the Project Board
+### From the Project Board — Step by Step
 
-1. Move the issue to **Ready**
-2. Set the **Work mode** field to "Cloud Agent"
+> **IMPORTANT:** The issue MUST be in **Ready** status before adding the `cloud-agent` label.
+> Adding the label to an issue in Backlog or any other status will be rejected.
+
+1. Ensure the issue is on the [project board](https://github.com/users/rivie13/projects/3)
+2. Move the issue to **Ready** status
 3. Go to the issue and add the `cloud-agent` label
-4. Copilot picks it up automatically
+4. The workflow will:
+   - Verify the issue is in Ready status
+   - Assign @copilot
+   - Move the board item to **In Progress**
+   - Set **Work mode** to **Cloud Agent**
+5. Copilot picks it up automatically — no manual board updates needed
+
+### What the Workflow Updates Automatically
+
+When a cloud agent is successfully assigned, the workflow updates the project board so you don't have to:
+
+| Field | Before | After |
+|-------|--------|-------|
+| Status | Ready | **In Progress** |
+| Work mode | (any) | **Cloud Agent** |
+| Assignee | (none) | **@copilot** |
+
+### Required Secret
+
+The workflow requires the `PROJECT_BOARD_TOKEN` repository secret with `project` and `repo` scopes. This is the same token used by `project-board-sync.yml`.
 
 ---
 
@@ -228,7 +264,7 @@ When you decide a task should be handled by Copilot coding agent instead of loca
 | Workflow | Trigger | Action |
 |----------|---------|--------|
 | `project-board-sync.yml` | Issue opened/reopened, PR opened/reopened | Adds item to Phoenix Project Board |
-| `cloud-agent-assign.yml` | Issue labeled `cloud-agent` | Assigns Copilot coding agent to the issue |
+| `cloud-agent-assign.yml` | Issue labeled `cloud-agent` | Guards (permission + Ready status), assigns Copilot, updates board Status → In Progress + Work mode → Cloud Agent |
 
 ---
 
