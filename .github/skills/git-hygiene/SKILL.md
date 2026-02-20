@@ -135,5 +135,22 @@ If any job fails, use the GitHub Actions Debug skill flow to inspect logs, fix r
 | Chore | `chore` | `subfeature/chore/<description>` | `feature/<topic>` |
 
 - Epic issues map to `feature/*` branches; close the epic when the feature branch merges to `main`.
-- Sub-issues map to `subfeature/<type>/<description>` branches; close with `Closes #N` in the subfeature PR.
+- Sub-issues map to `subfeature/<type>/<description>` branches; reference with `Closes #N` in the subfeature PR **and** close explicitly via MCP tools after merge.
 - Create sub-issues via `mcp_github_github_sub_issue_write`.
+
+## Post-merge issue completion (mandatory)
+
+After any PR is merged, **always close linked issues explicitly**. Do NOT rely solely on `Closes #N` in the PR body — GitHub only auto-closes issues when merging into the repo's **default branch**. Subfeature PRs that merge into `feature/*` branches will NOT auto-close linked issues.
+
+1. **Close the linked issue:**
+   ```
+   mcp_github_github_issue_write(method="update", owner="rivie13", repo="Phoenix-Agentic-Engine-Interface", issueNumber=<N>, state="closed", stateReason="completed")
+   ```
+
+2. **Close completed sub-issues** — if this was a parent issue with sub-issues, verify each merged sub-issue is closed.
+
+3. **Close parent epic if all children are done** — if this was a sub-issue, check whether all sibling sub-issues are now closed. If so, close the parent epic too.
+
+4. **Move to Done** on the project board.
+
+> **Rule:** A PR is not "fully done" until all linked issues are verified closed.

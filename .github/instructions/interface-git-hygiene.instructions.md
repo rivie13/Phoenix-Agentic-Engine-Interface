@@ -173,6 +173,25 @@ Issues must mirror the branch hierarchy so that work is traceable:
 - When merging the final `feature → main` PR, reference the parent epic with `Closes #N`.
 - This creates a clear audit trail: epic → sub-issues → subfeature PRs → feature PR → main.
 
+## Post-merge issue completion (mandatory)
+
+After any PR is merged, **always close linked issues explicitly using MCP tools**. Do NOT rely solely on `Closes #N` in the PR body — GitHub only auto-closes issues when a PR merges into the repo's **default branch** (`main`). Subfeature PRs that merge into `feature/*` branches will NOT auto-close linked issues.
+
+### Required steps after every PR merge:
+
+1. **Close the linked issue:**
+   ```
+   mcp_github_github_issue_write(method="update", owner="rivie13", repo="Phoenix-Agentic-Engine-Interface", issueNumber=<N>, state="closed", stateReason="completed")
+   ```
+
+2. **Close completed sub-issues** — if the merged PR's issue had sub-issues, verify each one whose work is also merged is closed. Close any that remain open.
+
+3. **Close parent epic if all children are done** — if the closed issue was a sub-issue of an epic, read the parent epic to check whether all sibling sub-issues are now closed. If so, close the epic.
+
+4. **Move to "Done"** on the project board.
+
+> **Rule:** A PR is not "fully done" until all linked issues are verified closed. This is as important as passing CI. Never skip this step.
+
 ## Interface-specific quality gate (required before PR readiness)
 
 - `npm run lint` passes
