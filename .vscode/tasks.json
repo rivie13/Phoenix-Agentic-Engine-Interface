@@ -17,6 +17,13 @@
       "group": "test"
     },
     {
+      "label": "dev: lint",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "lint"],
+      "group": "test"
+    },
+    {
       "label": "dev: test",
       "type": "shell",
       "command": "npm",

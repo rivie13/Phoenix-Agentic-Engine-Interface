@@ -49,6 +49,12 @@ For each unresolved review thread:
 
 ### Step 5: Request a new review (optional)
 
+Only request a new Copilot review if either:
+- no prior Copilot review exists on the PR, or
+- new commits were pushed after the latest Copilot review.
+
+If Copilot comments already exist for the latest commit set, address those comments first before requesting another review.
+
 ```
 mcp_github_github_request_copilot_review(owner="rivie13", repo="Phoenix-Agentic-Engine-Interface", pullNumber=<PR_NUMBER>)
 ```

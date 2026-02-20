@@ -1,0 +1,7 @@
+{
+  "schema_version": "v1",
+  "event": "tool_result_ack",
+  "accepted": true,
+  "plan_id": "plan-001",
+  "tool_call_id": "tc-001"
+}

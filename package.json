@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "lint": "oxlint sdk tests",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -17,7 +18,8 @@
   "devDependencies": {
     "@types/node": "^22.13.4",
     "cross-env": "^7.0.3",
+    "oxlint": "^1.26.0",
     "typescript": "^5.7.3",
-    "vitest": "^2.1.8"
+    "vitest": "^4.0.18"
   }
 }

@@ -41,11 +41,20 @@ const ChatMessageCommandSchema = z
   })
   .strict();
 
+const ExecuteLocalMcpCommandSchema = z
+  .object({
+    action: z.literal("execute_local_mcp"),
+    content: z.string().min(1),
+    agent: z.string().min(1)
+  })
+  .strict();
+
 const CommandSchema = z.discriminatedUnion("action", [
   CreateFileCommandSchema,
   ModifyTextCommandSchema,
   CreateNodeCommandSchema,
-  ChatMessageCommandSchema
+  ChatMessageCommandSchema,
+  ExecuteLocalMcpCommandSchema
 ]).superRefine((payload, ctx) => {
   if (payload.action === "create_file" && !payload.content && !payload.data_base64) {
     ctx.addIssue({
@@ -362,10 +371,41 @@ export const TaskStatusResponseSchema = z
     plan_id: z.string().min(1),
     job_id: z.string().min(1),
     session_id: z.string().min(1),
-    status: z.enum(["queued", "planning", "awaiting_approval", "approved", "executing", "done", "error"]),
+    status: z.enum([
+      "queued",
+      "planning",
+      "awaiting_tool_results",
+      "awaiting_approval",
+      "approved",
+      "executing",
+      "done",
+      "error"
+    ]),
     tier: z.string().min(1),
     updated_at: z.string().min(1),
     proposed_action_batch: ProposedActionBatchSchema.nullable().optional()
+  })
+  .strict();
+
+export const ToolResultSchema = z
+  .object({
+    schema_version: SchemaVersion,
+    session_id: z.string().min(1),
+    plan_id: z.string().min(1),
+    tool_call_id: z.string().min(1),
+    output: z.record(z.unknown()).nullable(),
+    error: z.string().nullable(),
+    timing_ms: z.number().int().nonnegative()
+  })
+  .strict();
+
+export const ToolResultAcceptedResponseSchema = z
+  .object({
+    schema_version: SchemaVersion,
+    event: z.literal("tool_result_ack"),
+    accepted: z.boolean(),
+    plan_id: z.string().min(1),
+    tool_call_id: z.string().min(1)
   })
   .strict();
 
@@ -587,6 +627,8 @@ export type ToolInvokeResponse = z.infer<typeof ToolInvokeResponseSchema>;
 export type RealtimeNegotiateRequest = z.infer<typeof RealtimeNegotiateRequestSchema>;
 export type RealtimeNegotiateResponse = z.infer<typeof RealtimeNegotiateResponseSchema>;
 export type TaskStatusResponse = z.infer<typeof TaskStatusResponseSchema>;
+export type ToolResult = z.infer<typeof ToolResultSchema>;
+export type ToolResultAcceptedResponse = z.infer<typeof ToolResultAcceptedResponseSchema>;
 export type ResourceLock = z.infer<typeof ResourceLockSchema>;
 export type LocksListResponse = z.infer<typeof LocksListResponseSchema>;
 export type LockReleaseResponse = z.infer<typeof LockReleaseResponseSchema>;
@@ -606,6 +648,8 @@ export const FixtureSchemaByFileName = {
   "tools_list.response.json": ToolListResponseSchema,
   "tools_invoke.request.json": ToolInvokeRequestSchema,
   "tools_invoke.response.json": ToolInvokeResponseSchema,
+  "tool_result.request.json": ToolResultSchema,
+  "tool_result.response.json": ToolResultAcceptedResponseSchema,
   "gateway/realtime_negotiate.request.json": RealtimeNegotiateRequestSchema,
   "gateway/realtime_negotiate.response.json": RealtimeNegotiateResponseSchema,
   "gateway/task_status.response.json": TaskStatusResponseSchema,

@@ -29,6 +29,9 @@ npm install
 # TypeScript compilation
 npm run build
 
+# Lint
+npm run lint
+
 # Type-check only (no emit)
 npm run typecheck
 
@@ -44,10 +47,11 @@ npm run test:smoke
 
 ## Validation checklist
 
-1. **Typecheck passes** — `npm run typecheck` must succeed with zero errors
-2. **All tests pass** — `npm test` (vitest)
-3. **Golden fixtures valid** — contract tests in `tests/contract/` must pass
-4. **Build succeeds** — `npm run build` compiles without errors
+1. **Lint passes** — `npm run lint` must succeed with zero errors
+2. **Typecheck passes** — `npm run typecheck` must succeed with zero errors
+3. **All tests pass** — `npm test` (vitest)
+4. **Golden fixtures valid** — contract tests in `tests/contract/` must pass
+5. **Build succeeds** — `npm run build` compiles without errors
 
 ## Testing rules
 
