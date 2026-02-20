@@ -131,5 +131,51 @@ If any workflow/job failed, fetch logs, fix root causes, and re-check until requ
 | Chore | `chore` | `subfeature/chore/<description>` | `feature/<topic>` |
 
 - Epic issues map to `feature/*` branches; close the epic when the feature branch merges to `main`.
-- Sub-issues map to `subfeature/<type>/<description>` branches; close with `Closes #N` in the subfeature PR.
+- Sub-issues map to `subfeature/<type>/<description>` branches; reference with `Closes #N` in the subfeature PR **and** close explicitly via MCP tools after merge.
 - Create sub-issues via `mcp_github_github_sub_issue_write`.
+
+## Project board field management (mandatory)
+
+**Labels ≠ project fields.** Priority, Size, Work mode, and Status are **project board fields** (rivie13/projects/3), NOT GitHub labels.
+
+To set project fields, add **signal labels** (`set:<field>:<value>`) when updating an issue:
+
+```text
+mcp_github_github_issue_write(method="update", ..., labels=["task", "set:priority:p1", "set:size:m"])
+```
+
+The `sync-project-fields.yml` workflow sets the field via GraphQL and removes the signal label automatically.
+
+**Signal labels:** `set:priority:p0`–`p3`, `set:size:xs`/`s`/`m`/`l`, `set:workmode:cloud-agent`/`local-ide`, `set:status:backlog`/`ready`/`in-progress`/`in-review`/`done`.
+
+For `cloud-agent` labeled issues, `cloud-agent-assign.yml` already handles Work mode + Status — only add priority and size signal labels.
+
+## Post-merge issue completion (mandatory)
+
+After a PR is merged, **always** verify and close linked issues. Do NOT rely solely on `Closes #N` in the PR body — GitHub only auto-closes issues when a PR merges into the repo's **default branch**. Subfeature PRs merging into `feature/*` branches will NOT auto-close issues.
+
+### Step 1: Close the linked issue
+
+```
+mcp_github_github_issue_write(method="update", owner="rivie13", repo="Phoenix-Agentic-Engine-Interface", issueNumber=<N>, state="closed", stateReason="completed")
+```
+
+### Step 2: Close any completed sub-issues
+
+Read the parent issue to list sub-issues. For each sub-issue whose work is merged, close it if still open.
+
+### Step 3: Check if parent epic should be closed
+
+If the closed issue was a sub-issue of an epic, check whether **all** sibling sub-issues are now closed. If so, close the epic.
+
+### Step 4: Set Status → Done on project board
+
+Add a signal label to move the issue to Done:
+
+```
+mcp_github_github_issue_write(method="update", owner="rivie13", repo="Phoenix-Agentic-Engine-Interface", issueNumber=<N>, labels=["task", "set:status:done"])
+```
+
+The `sync-project-fields.yml` workflow will set the Status field and remove the signal label.
+
+> **Rule:** Never consider a PR "fully done" until all linked issues are verified closed and moved to Done. This is as important as passing CI.

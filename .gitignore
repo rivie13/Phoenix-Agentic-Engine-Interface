@@ -15,3 +15,7 @@ coverage/
 
 # Agent prompts (private, never commit)
 prompts/
+
+# Local active task pointer (each user/agent has their own working copy)
+# Copy .github/context/CURRENT_TASK.md.stub to .github/context/CURRENT_TASK.md
+.github/context/CURRENT_TASK.md
