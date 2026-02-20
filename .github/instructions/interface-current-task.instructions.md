@@ -4,6 +4,14 @@
 
 **Read `.github/context/CURRENT_TASK.md` at the start of every session.** This file is the single source of truth for what is actively being worked on in this repo.
 
+### Stub / working-copy pattern
+
+- **`.github/context/CURRENT_TASK.md.stub`** — the immutable template committed to the repo. Copy this to create your working copy.
+- **`.github/context/CURRENT_TASK.md`** — the local working copy (gitignored). Each developer/agent fills this in with their active task.
+- If the working copy doesn't exist, copy the stub: `cp .github/context/CURRENT_TASK.md.stub .github/context/CURRENT_TASK.md`
+
+### Reading rules
+
 - If the file contains an active task: that is your primary context. All work should relate to or acknowledge this task.
 - If the file says "No active task": use the `focus` skill to pick the next task from the roadmap.
 - If you are spawned for a side task (bug fix, tangent): still read CURRENT_TASK.md to understand the main thread. Note in your response that the main task is X and this is a tangent.
