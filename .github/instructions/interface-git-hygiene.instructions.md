@@ -180,7 +180,7 @@ The project board (rivie13/projects/3) has **separate fields** that are NOT labe
 | Field | Type | Values |
 |-------|------|--------|
 | **Priority** | Single select | P0 (Critical), P1 (High), P2 (Medium), P3 (Low) |
-| **Size** | Single select | XS, S, M, L |
+| **Size** | Single select | XS, S, M, L, XL |
 | **Work mode** | Single select | Cloud Agent, Local IDE |
 | **Status** | Single select | Backlog, Ready, In Progress, In Review, Done |
 | **Labels** | GitHub labels | `task`, `epic`, `feature`, `cloud-agent`, etc. |
