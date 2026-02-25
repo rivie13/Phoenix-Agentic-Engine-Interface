@@ -1,0 +1,140 @@
+name: Bug report
+description: Report a reproducible bug with investigation details
+title: "[Bug]: "
+labels:
+  - bug
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug report.
+
+        Please include enough detail that another developer (or a coding agent) can reproduce and investigate without additional context.
+
+        Before submitting:
+        - Search for existing issues to avoid duplicates.
+        - Report one bug per issue.
+        - Prefer text logs/snippets over screenshots for stack traces or errors.
+
+  - type: dropdown
+    id: affected_repo
+    attributes:
+      label: Affected repository
+      options:
+        - Phoenix-Agentic-Engine
+        - Phoenix-Agentic-Engine-Backend
+        - Phoenix-Agentic-Engine-Interface
+        - Phoenix-Agentic-Website-Frontend
+        - Phoenix-Agentic-Website-Backend
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      description: Pick the closest area where the bug appears.
+      options:
+        - Assistant / Chat UI
+        - MCP / Tool execution
+        - Gateway / API contract
+        - Worker / Orchestration
+        - Realtime / Polling
+        - Auth / Session
+        - Build / CI
+        - Docs / Content
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: branch_sha
+    attributes:
+      label: Branch / commit / build
+      description: Include the branch and commit SHA (or release/build identifier).
+      placeholder: subfeature/task/example @ abc1234
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, runtime version(s), and any relevant tooling.
+      placeholder: Windows 11, Godot 4.x custom build, .NET 10, Python 3.12
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug description
+      description: What happens now, and what should happen instead?
+      placeholder: |
+        Actual:
+        Expected:
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Provide deterministic, minimal steps.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+        4. Observe ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Paste relevant logs, errors, payloads, screenshots, or videos.
+      placeholder: |
+        - Error log:
+        - Stack trace:
+        - Request/response payload:
+    validations:
+      required: true
+
+  - type: textarea
+    id: investigation
+    attributes:
+      label: Investigation notes
+      description: Add code-level findings to accelerate implementation.
+      placeholder: |
+        - Suspected files/functions:
+        - Why those areas:
+        - Hypothesized root cause:
+        - What was ruled out:
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Proposed acceptance criteria (for fix)
+      description: Define concrete checks to consider this bug fixed.
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+        - [ ] ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: links
+    attributes:
+      label: Related links
+      description: Link related issues/PRs/epics/docs if any.
+      placeholder: |
+        - Related issue: #
+        - Related PR: #
+        - Design doc:
+    validations:
+      required: false

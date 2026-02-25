@@ -156,10 +156,11 @@ The `sync-project-fields.yml` workflow detects signal labels, sets the project f
 |---|---|
 | `set:priority:p0` – `set:priority:p3` | Priority → P0–P3 |
 | `set:size:xs` / `s` / `m` / `l` | Size → XS/S/M/L |
-| `set:workmode:cloud-agent` / `local-ide` | Work mode → Cloud Agent / Local IDE |
+| `set:workmode:cloud-agent` / `local-ide` / `cli-agent` | Work mode → Cloud Agent / Local IDE / CLI Agent |
 | `set:status:backlog` / `ready` / `in-progress` / `in-review` / `done` | Status → corresponding value |
+| `set:area:<area-name>` | Area → area value (see WORKER_FACTORY.md for valid names per repo) |
 
-**When to set fields:** On issue creation or when triaging. For `cloud-agent` labeled issues, the `cloud-agent-assign.yml` workflow already sets Work mode and Status — only add `set:priority:*` and `set:size:*` signal labels.
+**When to set fields:** On issue creation or when triaging. For `cloud-agent` labeled issues, the `cloud-agent-assign.yml` workflow already sets Work mode and Status — only add `set:priority:*`, `set:size:*`, and `set:area:*` signal labels.
 
 ## Post-merge issue completion (mandatory)
 
