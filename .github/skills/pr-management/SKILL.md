@@ -146,9 +146,9 @@ mcp_github_github_issue_write(method="update", ..., labels=["task", "set:priorit
 
 The `sync-project-fields.yml` workflow sets the field via GraphQL and removes the signal label automatically.
 
-**Signal labels:** `set:priority:p0`–`p3`, `set:size:xs`/`s`/`m`/`l`, `set:workmode:cloud-agent`/`local-ide`, `set:status:backlog`/`ready`/`in-progress`/`in-review`/`done`.
+**Signal labels:** `set:priority:p0`–`p3`, `set:size:xs`/`s`/`m`/`l`, `set:workmode:cloud-agent`/`local-ide`/`cli-agent`, `set:status:backlog`/`ready`/`in-progress`/`in-review`/`done`, `set:area:<area-name>`.
 
-For `cloud-agent` labeled issues, `cloud-agent-assign.yml` already handles Work mode + Status — only add priority and size signal labels.
+For `cloud-agent` labeled issues, `cloud-agent-assign.yml` already handles Work mode + Status — only add priority, size, and area signal labels.
 
 ## Post-merge issue completion (mandatory)
 
